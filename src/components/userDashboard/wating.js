@@ -1,35 +1,44 @@
 import React from 'react'
-import { Card, Container, Col, Row,Badge } from 'react-bootstrap'
+import { Card, Container, Col, Row, Badge } from 'react-bootstrap'
 import { useLocation, useNavigate } from 'react-router-dom';
 
 
 const Withlocation = (props) => {
     const location = useLocation()
     const navigate = useNavigate()
-    return <Gamejoin {...props} location={location} navigate={navigate} />
+    return <Watingoppenent {...props} location={location} navigate={navigate} />
 }
 
-class Gamejoin extends React.Component {
+class Watingoppenent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             selected_category: this.props.location.state.selected_category,
-            seconds: 30,
-            active_flag: false
+            seconds: 10,
+            active_flag: false,
+            started_at: null,
+            my_room_code:null,
+            my_sub_category:null,
         }
     }
     componentDidMount() {
         setInterval(() => this.timmer(), 1000)
     }
+
     timmer() {
         if (this.state.seconds > 0) {
             this.setState({ seconds: this.state.seconds - 1 })
-        }
-        else {
-            this.props.navigate('/sub_category', { state: this.state })
-        }
-        if (this.state.seconds === 0) {
+            fetch(`http://127.0.0.1:8000/api/quizzgame/${this.props.location.state.Created_Quizz_data.id}/`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Match started_at', data.started_at)
+                    this.setState({
+                        started_at: data.started_at
+                    })
+                })
 
+        }
+        if (this.state.seconds === 0 && this.state.started_at === null) {
             const data = { active_flag: this.state.active_flag }
             console.log('active_flag:', data)
             fetch(`http://127.0.0.1:8000/api/quizzgame/${this.props.location.state.Created_Quizz_data.id}/`, {
@@ -47,27 +56,30 @@ class Gamejoin extends React.Component {
                     })
                     this.props.navigate('/sub_category', { state: this.state })
                 })
-
+        }
+        if (this.state.seconds !== 0 && this.state.started_at !== null) {
+            this.setState({
+                my_room_code:this.props.location.state.Created_Quizz_data.room_code,
+                my_sub_category:this.props.location.state.Created_Quizz_data.sub_category
+            })
+            this.props.navigate('/matchstart',{ state: this.state })
         }
     }
 
     render() {
-        console.log('selected_category', this.props.location.state.Created_Quizz_data.id)
+        console.log('Room_code:', this.props.location.state.Created_Quizz_data.room_code)
+        console.log('selected_category', this.props.location.state.Created_Quizz_data)
         return (
             <div>
-                <div>
-                    <h2>{this.state.seconds}</h2>
-                </div>
                 <Container>
                     <Row>
                         <Col md={6}>
                             <Card className="text-center" >
                                 <Card.Header>
                                     <blockquote className="blockquote mb-0">
-                                        <p className='h1'>Matche Start in </p>
+                                        <p className='h1'>Match Start</p>
                                         <footer className="blockquote-footer">
-                                            <cite title="Source Title"></cite>
-                                            <Badge bg="secondary">{ this.state.seconds}</Badge>
+                                            <cite title="Source Title">{this.state.seconds}</cite>
                                         </footer>
                                     </blockquote>
 
@@ -78,14 +90,14 @@ class Gamejoin extends React.Component {
                                             <Card className="text-center">
                                                 <Card.Body>
                                                     <blockquote className="blockquote mb-0">
-                                                        <p>
-                                                            {' '}
-                                                            Waiting for the opponant....
-                                                            {' '}
-                                                        </p>
-                                                        <footer className="blockquote-footer">
-                                                            <cite title="Source Title">{ }</cite>
-                                                        </footer>
+                                                        <>
+                                                            <p>
+                                                                <Badge bg="secondary">{this.state.seconds}</Badge>
+                                                                {' '}
+                                                                Waiting for the opponant....
+                                                                {' '}
+                                                            </p>
+                                                        </>
                                                     </blockquote>
                                                     <hr />
                                                 </Card.Body>

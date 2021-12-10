@@ -9,7 +9,8 @@ import SignUp from "./components/account/signup.component";
 
 import Home from "./components/userDashboard/Home";
 import Subcategory from "./components/userDashboard/subcategory";
-import Gamejoin from "./components/userDashboard/gamejoin";
+import Watingoppenent from "./components/userDashboard/wating";
+import Matchpage from "./components/userDashboard/matchpage";
 
 
 import Addquestion from "./components/adminDashboard/addquestion";
@@ -37,7 +38,8 @@ function App() {
                     <>
                       <Route path="/home" element={<Home />} />
                       <Route path="/sub_category" element={<Subcategory/>} />
-                      <Route path="/gamejoin" element={<Gamejoin />} />
+                      <Route path="/waiting" element={<Watingoppenent />} />
+                      <Route path="/matchstart" element={<Matchpage />} />
                     </>
                   }
                 </>

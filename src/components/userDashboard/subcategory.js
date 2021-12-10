@@ -23,7 +23,9 @@ class Subcategory extends Component {
             live_Matchs: [],
             live_Matchs_users: [],
             Created_Quizz_data:[],
-            room_code:null
+            opponant_room_code:null,
+            opponant:null,
+            opponant_sub_category:null
         }
 
         this.handleShow = this.handleShow.bind(this)
@@ -45,7 +47,7 @@ class Subcategory extends Component {
 //////////////////////////////////////Join Match //////////////////////////////////////////////////
 
 join_match = ()=>{
-    const data={room_code:this.state.room_code}
+    const data={room_code:this.state.opponant_room_code}
     console.log('room_code:',data)
     fetch(`http://127.0.0.1:8000/api/quizzgame/joinquizz/`,{
         method: "PATCH",
@@ -57,7 +59,12 @@ join_match = ()=>{
         body: JSON.stringify(data)
     }).then(response => response.json())
     .then(data => {
-        console.log('join_match',data)
+        console.log('join_match',data.status)
+        this.setState({
+            opponant:data.status
+        },()=>{
+            this.props.navigate('/matchstart',{state: this.state})
+        })
     })
 
 }
@@ -84,7 +91,7 @@ join_match = ()=>{
                     Created_Quizz_data:data,
                     show: false
                 },() => {
-                this.props.navigate('/gamejoin',{state: this.state})
+                this.props.navigate('/waiting',{state: this.state})
                 })
             })
     }
@@ -111,7 +118,8 @@ join_match = ()=>{
 
     /////////////////////////////////////////////////// for join match ///////////////////////////////////////////
     render() {
-        console.log('game data:',this.props.location.state)
+        console.log('opponant_sub_category:',this.state.opponant_sub_category)
+        console.log('opponant_room_code:',this.state.opponant_room_code)
         return (
             <>
                 <Container>
@@ -194,7 +202,8 @@ join_match = ()=>{
                                                             </blockquote>
                                                             <Button variant="primary" onClick={()=>{
                                                                 this.setState({
-                                                                    room_code:live_Match.room_code
+                                                                    opponant_room_code:live_Match.room_code,
+                                                                    opponant_sub_category:live_Match.sub_category
                                                                 },()=>{
                                                                     this.join_match()
                                                                 })
