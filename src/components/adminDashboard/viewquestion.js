@@ -9,7 +9,7 @@ class Viewquestion extends React.Component {
         super(props);
 
         this.state = {
-            url: 'http://127.0.0.1:8000/api/question/',
+            url: 'http://192.168.0.103:8000/api/question/',
             DataisLoaded: false,
             results: [],
             next: null,
@@ -48,7 +48,7 @@ class Viewquestion extends React.Component {
     }
     ////////////////////////////////////// For filters//////////////////////////////////////////////
     filterhandle() {
-        fetch(`http://127.0.0.1:8000/api/question/?category=${this.state.category_value}&sub_category=${this.state.sub_category_value}`)
+        fetch(`http://192.168.0.103:8000/api/question/?category=${this.state.category_value}&sub_category=${this.state.sub_category_value}`)
             .then(response => response.json())
             .then(data => {
                 console.log('filter_data', data)
@@ -60,7 +60,7 @@ class Viewquestion extends React.Component {
     }
 
     Categoryhandler = () => {
-        fetch(`http://127.0.0.1:8000/api/question/category/`)
+        fetch(`http://192.168.0.103:8000/api/question/category/`)
             .then(response => response.json())
             .then(data => {
                 console.log('category_data', data)
@@ -71,7 +71,7 @@ class Viewquestion extends React.Component {
     }
 
     Subcategoryhandler = () => {
-        fetch(`http://127.0.0.1:8000/api/question/category/${this.state.category_value}/subcategory`)
+        fetch(`http://192.168.0.103:8000/api/question/category/${this.state.category_value}/subcategory`)
             .then(response => response.json())
             .then(data => {
                 console.log('sub category_data', data)
@@ -95,7 +95,7 @@ class Viewquestion extends React.Component {
     ////////////////////////////////////// For Delete///////////////////////////////////////////////
     delete(item) {
         const currentresults = this.state.results.filter(i => i.id !== item.id)
-        fetch(`http://127.0.0.1:8000/api/question/${item.id}/`, { method: "DELETE" })
+        fetch(`http://192.168.0.103:8000/api/question/${item.id}/`, { method: "DELETE" })
         this.setState({
             results: currentresults
         })

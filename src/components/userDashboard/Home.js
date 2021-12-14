@@ -21,30 +21,60 @@ class Home extends React.Component {
   }
 
   componentDidMount = () => {
-    fetch(`http://127.0.0.1:8000/api/question/category/`)
+    this.getting_category();
+    this.user_data();
+  }
+
+  getting_category() {
+    fetch(`http://192.168.0.103:8000/api/question/category/`)
       .then(response => response.json())
       .then(data => {
-        console.log('categories_data', data)
         this.setState({
           categories: data.category,
-          user: user
         })
       })
   }
-
+  user_data() {
+    fetch(`http://192.168.0.103:8000/api/user/${user.user_id}`)
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          user: data
+        })
+      })
+  }
   render() {
+    console.log('user', this.state.user.total_score)
     return (
       <>
         <div>
           <Container>
             <Card className="mt-5 mb-5">
               <Container>
-                <Row className="justify-content-md-center">
-                  <Col sm={8}>
-                    <Card.Header className="text-muted mt-5 mb-5">welcom :{user.username}</Card.Header>
+
+                <Row>
+                  <Col xs={12} md={8}>
+                    <Card.Header className="mb-5">
+
+                      <Stack direction="horizontal" gap={3}>
+                        <div className="bg-light">Welcome  </div>
+                        <div className="vr" />
+                        <div className="bg-light">{this.state.user.username}</div>
+                        <div className="vr" />
+                      </Stack>
+                    </Card.Header>
                   </Col>
-                  <Col sm={4}>
-                    <Card.Header className="mb-5">Score:</Card.Header>
+                  <Col xs={6} md={4}>
+                    <Card.Header className="mb-5">
+
+                      <Stack direction="horizontal" gap={3}>
+                        <div className="bg-light">Total score </div>
+                        <div className="vr" />
+                        <div className="bg-light">{this.state.user.total_score}</div>
+                        <div className="vr" />
+                      </Stack>
+                    </Card.Header>
+
                   </Col>
                 </Row>
               </Container>

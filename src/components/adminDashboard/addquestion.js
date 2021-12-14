@@ -28,7 +28,7 @@ const Addquestion = (e) => {
         console.log('data', formdata)
 
 
-        fetch("http://127.0.0.1:8000/api/question/", {
+        fetch("http://192.168.0.103:8000/api/question/", {
             method: "POST",
             headers: {
                 // 'Content-Type': 'multipart/form-data',
@@ -62,7 +62,7 @@ const Addquestion = (e) => {
 
     function bulkSubmit() {
 
-        fetch("http://localhost:8000/api/qupload/", {
+        fetch("http://192.168.0.103:8000/api/qupload/", {
             method: "POST",
             body: data,
 

@@ -34,8 +34,8 @@ class Subcategory extends Component {
     /////////////////////////////////// live matches /////////////////////////////////////////////////
     componentDidMount = () => {
         console.log('selected_category:', this.state.selected_category)
-        // fetch(`http://127.0.0.1:8000/api/quizzgame&active_flag=true`)
-        fetch(`http://127.0.0.1:8000/api/livegame/?category=${this.state.selected_category}`)
+        // fetch(`http://192.168.0.103:8000/api/quizzgame&active_flag=true`)
+        fetch(`http://192.168.0.103:8000/api/livegame/?category=${this.state.selected_category}`)
             .then(response => response.json())
             .then(data => {
                 console.log('Live_Quizz_Data', data)
@@ -49,7 +49,7 @@ class Subcategory extends Component {
 join_match = ()=>{
     const data={room_code:this.state.opponant_room_code}
     console.log('room_code:',data)
-    fetch(`http://127.0.0.1:8000/api/quizzgame/joinquizz/`,{
+    fetch(`http://192.168.0.103:8000/api/quizzgame/joinquizz/`,{
         method: "PATCH",
         headers: {
             'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ join_match = ()=>{
         
         const data = { category: this.state.selected_category, sub_category: this.state.sub_category_value }
         console.log('data:', data)
-        fetch(`http://127.0.0.1:8000/api/quizzgame/`, {
+        fetch(`http://192.168.0.103:8000/api/quizzgame/`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ join_match = ()=>{
     }
     ////////////////////////////////////////////// for getting the sub category //////////////////////////////////
     handleShow() {
-        fetch(`http://127.0.0.1:8000/api/question/category/${this.state.selected_category}/subcategory`)
+        fetch(`http://192.168.0.103:8000/api/question/category/${this.state.selected_category}/subcategory`)
             .then(response => response.json())
             .then(data => {
                 console.log('Subcategories_data', data)

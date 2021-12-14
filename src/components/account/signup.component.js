@@ -21,7 +21,7 @@ function SignUp() {
         let item = { username, email, password }
         console.log("item", item)
 
-        fetch("http://127.0.0.1:8000/api/registration/", {
+        fetch("http://192.168.0.103:8000/api/registration/", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

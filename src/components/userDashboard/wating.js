@@ -22,13 +22,17 @@ class Watingoppenent extends React.Component {
         }
     }
     componentDidMount() {
-        setInterval(() => this.timmer(), 1000)
+        this.intervalId = setInterval(this.timmer.bind(this), 1000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.intervalId);
     }
 
     timmer() {
         if (this.state.seconds > 0) {
             this.setState({ seconds: this.state.seconds - 1 })
-            fetch(`http://127.0.0.1:8000/api/quizzgame/${this.props.location.state.Created_Quizz_data.id}/`)
+            fetch(`http://192.168.0.103:8000/api/quizzgame/${this.props.location.state.Created_Quizz_data.id}/`)
                 .then(response => response.json())
                 .then(data => {
                     console.log('Match started_at', data.started_at)
@@ -41,7 +45,7 @@ class Watingoppenent extends React.Component {
         if (this.state.seconds === 0 && this.state.started_at === null) {
             const data = { active_flag: this.state.active_flag }
             console.log('active_flag:', data)
-            fetch(`http://127.0.0.1:8000/api/quizzgame/${this.props.location.state.Created_Quizz_data.id}/`, {
+            fetch(`http://192.168.0.103:8000/api/quizzgame/${this.props.location.state.Created_Quizz_data.id}/`, {
                 method: "PATCH",
                 headers: {
                     'Content-Type': 'application/json',
@@ -60,9 +64,11 @@ class Watingoppenent extends React.Component {
         if (this.state.seconds !== 0 && this.state.started_at !== null) {
             this.setState({
                 my_room_code:this.props.location.state.Created_Quizz_data.room_code,
-                my_sub_category:this.props.location.state.Created_Quizz_data.sub_category
+                my_sub_category:this.props.location.state.Created_Quizz_data.sub_category,
+                my_quizz_id:this.props.location.state.Created_Quizz_data.id
             })
             this.props.navigate('/matchstart',{ state: this.state })
+            clearInterval(this.intervalId);
         }
     }
 

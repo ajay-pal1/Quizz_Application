@@ -11,6 +11,7 @@ import Home from "./components/userDashboard/Home";
 import Subcategory from "./components/userDashboard/subcategory";
 import Watingoppenent from "./components/userDashboard/wating";
 import Matchpage from "./components/userDashboard/matchpage";
+import Result from "./components/userDashboard/result";
 
 
 import Addquestion from "./components/adminDashboard/addquestion";
@@ -40,6 +41,7 @@ function App() {
                       <Route path="/sub_category" element={<Subcategory/>} />
                       <Route path="/waiting" element={<Watingoppenent />} />
                       <Route path="/matchstart" element={<Matchpage />} />
+                      <Route path="/result" element={<Result />} />
                     </>
                   }
                 </>
